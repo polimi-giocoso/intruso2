@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="it.giocoso.trovaintruso.activities.ModeOneActivity"
+    android:background="#eee"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/stage"
+        android:layout_weight="1"></RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameInfo">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0:00"
+            android:id="@+id/timer"
+            android:textColor="#333"
+            android:textSize="56dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="12dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:id="@+id/start"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="12dp"
+            android:onClick="startAnimation" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pausa"
+            android:id="@+id/pause"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="12dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vai alla prossima"
+            android:id="@+id/next"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="12dp" />
+    </LinearLayout>
+
+</LinearLayout>

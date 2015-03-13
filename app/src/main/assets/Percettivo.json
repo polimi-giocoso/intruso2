@@ -1,0 +1,25 @@
+{
+     "scene" : [
+         {
+             "id" : "universo",
+             "nome" : "Universo",
+             "target" : "stella",
+             "elementi" : "pianeta",
+             "sfondo" : "bg_universo"
+         },
+         {
+             "id" : "natura",
+             "nome" : "Natura",
+             "target" : "tartaruga",
+             "elementi" : "anguria",
+             "sfondo" : "bg_natura"
+         },
+         {
+             "id" : "prato",
+             "nome" : "Prato",
+             "target" : "quadrifoglio",
+             "elementi" : "trifoglio",
+             "sfondo" : "bg_prato"
+         }
+     ]
+}

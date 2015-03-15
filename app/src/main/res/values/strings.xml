@@ -15,4 +15,5 @@
         <item>Colore</item>
         <item>Percettivo</item>
     </string-array>
+    <string name="title_activity_main">Trova l\'intruso 2</string>
 </resources>

@@ -4,21 +4,28 @@
             "id" : "oggetti",
             "nome" : "Oggetti",
             "target" : "dado",
-            "elementi" : "bottone",
+            "elementi" : [
+                {"nome" : "bottone"}
+                ],
             "sfondo" : "bg_oggetti"
         },
         {
             "id" : "animali",
             "nome" : "Animali",
             "target" : "leone",
-            "elementi" : "tigre",
+            "elementi" : [
+                {"nome" : "tigre"}
+                ],
             "sfondo" : "bg_savana"
         },
         {
             "id" : "forme",
             "nome" : "Forme",
             "target" : "quadrato",
-            "elementi" : "triangolo",
+            "elementi" : [
+                {"nome" : "triangolo_1"},
+                {"nome" : "triangolo_2"}
+                ],
             "sfondo" : "bg_forme"
         }
     ]

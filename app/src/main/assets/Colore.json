@@ -4,21 +4,27 @@
             "id" : "mare",
             "nome" : "Mare",
             "target" : "fish_intruso",
-            "elementi" : "fish",
+            "elementi" : [
+                {"nome" : "fish"}
+                ],
             "sfondo" : "bg_mare"
         },
         {
             "id" : "urbano",
             "nome" : "Urbano",
             "target" : "auto_intruso",
-            "elementi" : "auto",
+            "elementi" : [
+                {"nome" : "auto"}
+                ],
             "sfondo" : "bg_urbano"
         },
         {
             "id" : "colore",
             "nome" : "Colore",
             "target" : "pallino_intruso",
-            "elementi" : "pallino",
+            "elementi" : [
+                {"nome" : "pallino"}
+                ],
             "sfondo" : "bg_colore"
         }
     ]

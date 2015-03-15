@@ -56,10 +56,13 @@ public class ModeTwoActivity extends ActionBarActivity {
     ArrayList<Integer> posizioni = new ArrayList<Integer>();
     int speed, attesa, c, cIntrusiTrovati, cSchermate, cSfondi;
     long tempoInizio, tempoGioco;
-    String elemento, intruso, background;
+    String intruso, background;
     AlertDialog.Builder builder;
     Button start, pause, next;
     LinearLayout gameInfo;
+
+    JSONArray elementi;
+    JSONObject elemento;
 
     int idxOggetti;
 
@@ -68,6 +71,8 @@ public class ModeTwoActivity extends ActionBarActivity {
     SharedPreferences settings;
 
     DisplayMetrics displaymetrics;
+
+    int backCounter = 0;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +118,7 @@ public class ModeTwoActivity extends ActionBarActivity {
 
         creaSchermata();
 
-        start.setOnClickListener(new View.OnClickListener() {
+        /*start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 start.setVisibility(View.GONE);
@@ -129,7 +134,7 @@ public class ModeTwoActivity extends ActionBarActivity {
                 pause.setVisibility(View.GONE);
                 pauseGame();
             }
-        });
+        });*/
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +156,7 @@ public class ModeTwoActivity extends ActionBarActivity {
 
         //inizializzo valori per questa schermata
 
+        backCounter = 0;
         tempoGioco = 0;
         tempoInizio = 0;
         cIntrusiTrovati = 0;
@@ -158,9 +164,10 @@ public class ModeTwoActivity extends ActionBarActivity {
         stage.removeAllViews();
         timerOggetti.clear();
         timerView.setVisibility(View.VISIBLE);
-        start.setVisibility(View.VISIBLE);
-        pause.setVisibility(View.GONE);
-        next.setVisibility(View.GONE);
+        //start.setVisibility(View.VISIBLE);
+        //pause.setVisibility(View.GONE);
+        //next.setVisibility(View.GONE);
+        next.setVisibility(View.VISIBLE);
 
         //estraggo uno scenario in base al criterio della sessione
 
@@ -181,7 +188,7 @@ public class ModeTwoActivity extends ActionBarActivity {
                 cSfondi = 0;
             }
 
-            elemento = scena.getString("elementi");
+            elementi = scena.getJSONArray("elementi");
             intruso = scena.getString("target");
             background = scena.getString("sfondo");
 
@@ -300,6 +307,8 @@ public class ModeTwoActivity extends ActionBarActivity {
 
             }
         };
+
+        this.iniziaGioco();
     }
 
     public void creaOggetto(Oggetto oggetto, final int idxOggetti, final int i, int j, int startX, int startY) {
@@ -315,6 +324,8 @@ public class ModeTwoActivity extends ActionBarActivity {
         params.width = widthObj;
         params.height = heightObj;
         bottoniOggetti.get(idxOggetti).setLayoutParams(params);
+
+        Random r = new Random();
 
         if(oggetto.isIntruso()) {
             bottoniOggetti.get(idxOggetti).setBackgroundResource(getResources().getIdentifier(intruso,
@@ -413,8 +424,13 @@ public class ModeTwoActivity extends ActionBarActivity {
 
 
         }else{
-            bottoniOggetti.get(idxOggetti).setBackgroundResource(getResources().getIdentifier(elemento,
-                    "drawable", getPackageName()));
+            try {
+                elemento = elementi.getJSONObject(r.nextInt(elementi.length()));
+                bottoniOggetti.get(idxOggetti).setBackgroundResource(getResources().getIdentifier(elemento.getString("nome"),
+                        "drawable", getPackageName()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             bottoniOggetti.get(idxOggetti).setX(startX + j * (widthObj+margin));
             bottoniOggetti.get(idxOggetti).setY(startY + i * (heightObj+margin));
 
@@ -589,6 +605,14 @@ public class ModeTwoActivity extends ActionBarActivity {
 
     public void pauseGame(){
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        backCounter++;
+        if(backCounter == 7){
+            finish();
+        }
     }
 
 }

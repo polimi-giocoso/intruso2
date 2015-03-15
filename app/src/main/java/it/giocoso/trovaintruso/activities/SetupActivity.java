@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -121,6 +122,43 @@ public class SetupActivity extends ActionBarActivity {
 
     }
 
+    public void save(){
+        SharedPreferences settings = getSharedPreferences(
+                "settings", 0);
+        final SharedPreferences.Editor editor = settings.edit();
+
+        if(isValid()){
+
+            //salvo tutti i campi
+            editor.putString("emailMitt", emailMitt.getText().toString());
+            editor.putString("pswMitt", pswMitt.getText().toString());
+
+            editor.putString("s1_email", s1_email.getText().toString());
+            editor.putInt("s1_numSchermate", Integer.parseInt(s1_numSchermate.getText().toString()));
+            editor.putInt("s1_numOggetti", Integer.parseInt(s1_numOggetti.getText().toString()));
+            editor.putInt("s1_numIntrusi", Integer.parseInt(s1_numIntrusi.getText().toString()));
+            editor.putInt("s1_tempoMax", Integer.parseInt(s1_tempoMax.getText().toString()));
+            editor.putInt("s1_criterio", s1_criterio.getSelectedItemPosition());
+
+            editor.putString("s2_email", s2_email.getText().toString());
+            editor.putInt("s2_numSchermate", Integer.parseInt(s2_numSchermate.getText().toString()));
+            editor.putInt("s2_numRighe", Integer.parseInt(s2_numRighe.getText().toString()));
+            editor.putInt("s2_numColonne", Integer.parseInt(s2_numColonne.getText().toString()));
+            editor.putInt("s2_numIntrusi", Integer.parseInt(s2_numIntrusi.getText().toString()));
+            editor.putInt("s2_tempoMax", Integer.parseInt(s2_tempoMax.getText().toString()));
+            editor.putInt("s2_attesa", Integer.parseInt(s2_attesa.getText().toString()));
+            editor.putInt("s2_speed", Integer.parseInt(s2_speed.getText().toString()));
+            editor.putInt("s2_criterio", s2_criterio.getSelectedItemPosition());
+
+            editor.commit();
+
+
+            Toast.makeText(getApplicationContext(), "Impostazioni salvate correttamente!", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getApplicationContext(), errori, Toast.LENGTH_LONG).show();
+        }
+    }
+
     public boolean isValid(){
 
         boolean esito = true;
@@ -190,6 +228,26 @@ public class SetupActivity extends ActionBarActivity {
 
 
         return esito;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_set_mode_one, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                save();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

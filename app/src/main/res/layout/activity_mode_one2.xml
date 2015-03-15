@@ -36,7 +36,8 @@
             android:id="@+id/start"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="12dp"
-            android:onClick="startAnimation" />
+            android:onClick="startAnimation"
+            android:visibility="gone" />
 
         <Button
             android:layout_width="wrap_content"
@@ -44,7 +45,8 @@
             android:text="Pausa"
             android:id="@+id/pause"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="12dp" />
+            android:layout_marginRight="12dp"
+            android:visibility="gone" />
 
         <Button
             android:layout_width="wrap_content"

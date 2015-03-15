@@ -14,34 +14,29 @@
             android:configChanges="orientation"
             android:label="@string/title_activity_mode_one"
             android:screenOrientation="landscape"
-            android:taskAffinity=".activities.ModeOneActivity">
-            <intent-filter>
-
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:taskAffinity=".activities.ModeOneActivity" >
         </activity>
         <activity
             android:name=".activities.ModeTwoActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_mode_two"
             android:screenOrientation="landscape"
-            android:taskAffinity=".activities.ModeTwoActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:taskAffinity=".activities.ModeTwoActivity" >
         </activity>
         <activity
             android:name=".activities.SetupActivity"
-            android:label="@string/title_activity_set_mode_one"
             android:configChanges="orientation"
+            android:label="@string/title_activity_set_mode_one"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:taskAffinity=".activities.SetupActivity">
+            android:taskAffinity=".activities.SetupActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" >
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />

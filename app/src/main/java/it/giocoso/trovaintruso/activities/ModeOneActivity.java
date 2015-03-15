@@ -71,14 +71,19 @@ public class ModeOneActivity extends ActionBarActivity {
     int cIntrusiTrovati, idxOggetti, cSchermate, cSfondi;
     int widthObj, heightObj, widthScreen, heightScreen;
     long tempoInizio, tempoGioco;
-    String elemento, intruso, background;
+    String intruso, background;
     AlertDialog.Builder builder;
     Button start, pause, next;
     LinearLayout gameInfo;
 
+    JSONArray elementi;
+    JSONObject elemento;
+
     SharedPreferences settings;
 
     DisplayMetrics displaymetrics;
+
+    int backCounter = 0;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +130,7 @@ public class ModeOneActivity extends ActionBarActivity {
 
         creaSchermata();
 
-        start.setOnClickListener(new View.OnClickListener() {
+        /*start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 start.setVisibility(View.GONE);
@@ -141,7 +146,7 @@ public class ModeOneActivity extends ActionBarActivity {
                 pause.setVisibility(View.GONE);
                 pauseGame();
             }
-        });
+        });*/
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,12 +161,14 @@ public class ModeOneActivity extends ActionBarActivity {
 
         //inizializzo valori per questa schermata
 
+        backCounter = 0;
         tempoInizio = 0;
         tempoGioco = 0;
         cIntrusiTrovati = 0;
-        start.setVisibility(View.VISIBLE);
-        pause.setVisibility(View.GONE);
-        next.setVisibility(View.GONE);
+        //start.setVisibility(View.VISIBLE);
+        //pause.setVisibility(View.GONE);
+        //next.setVisibility(View.GONE);
+        next.setVisibility(View.VISIBLE);
 
         //estraggo uno scenario in base al criterio della sessione
 
@@ -182,7 +189,7 @@ public class ModeOneActivity extends ActionBarActivity {
                 cSfondi = 0;
             }
 
-            elemento = scena.getString("elementi");
+            elementi = scena.getJSONArray("elementi");
             intruso = scena.getString("target");
             background = scena.getString("sfondo");
 
@@ -274,6 +281,8 @@ public class ModeOneActivity extends ActionBarActivity {
 
             }
         };
+
+        startAnimation(next);
     }
 
 
@@ -291,16 +300,22 @@ public class ModeOneActivity extends ActionBarActivity {
         params.height = heightObj;
         bottoniOggetti.get(i).setLayoutParams(params);
 
+        Random r = new Random();
 
         if(obj.isIntruso()) {
             bottoniOggetti.get(i).setBackgroundResource(getResources().getIdentifier(intruso,
                     "drawable", getPackageName()));
         }else{
-            bottoniOggetti.get(i).setBackgroundResource(getResources().getIdentifier(elemento,
-                    "drawable", getPackageName()));
+            try {
+                elemento = elementi.getJSONObject(r.nextInt(elementi.length()));
+                bottoniOggetti.get(i).setBackgroundResource(getResources().getIdentifier(elemento.getString("nome"),
+                        "drawable", getPackageName()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
-        Random r = new Random();
+
 
         bottoniOggetti.get(i).setX(r.nextInt(10+i) * widthScreen/(10+i) + widthObj);
         bottoniOggetti.get(i).setY(r.nextInt(6) * heightScreen / 6 + heightObj/2);
@@ -352,7 +367,6 @@ public class ModeOneActivity extends ActionBarActivity {
      * Initiate the Tween Engine
      */
     private void setTweenEngine() {
-
 
         tweenManager = new TweenManager();
         //start animation theread
@@ -511,6 +525,8 @@ public class ModeOneActivity extends ActionBarActivity {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         v.setVisibility(View.GONE);
+                        v.setBackground(null);
+                        //System.gc();
                         if(c==idxOggetti-1){
                             cSchermate++;
 
@@ -605,6 +621,14 @@ public class ModeOneActivity extends ActionBarActivity {
 
     public void pauseGame(){
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        backCounter++;
+        if(backCounter == 7){
+            finish();
+        }
     }
 
 }

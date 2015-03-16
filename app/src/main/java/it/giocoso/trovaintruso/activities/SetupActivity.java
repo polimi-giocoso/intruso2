@@ -3,13 +3,16 @@ package it.giocoso.trovaintruso.activities;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import it.giocoso.trovaintruso.R;
@@ -17,6 +20,7 @@ import it.giocoso.trovaintruso.R;
 public class SetupActivity extends ActionBarActivity {
 
     EditText emailMitt, pswMitt;
+    Switch sendMail;
 
     EditText s1_email, s1_numSchermate, s1_numOggetti, s1_numIntrusi, s1_tempoMax;
     Spinner s1_criterio;
@@ -28,6 +32,8 @@ public class SetupActivity extends ActionBarActivity {
 
     String errori;
 
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +43,7 @@ public class SetupActivity extends ActionBarActivity {
 
         emailMitt = (EditText) findViewById(R.id.setup_email_mittente);
         pswMitt = (EditText) findViewById(R.id.setup_email_password);
+        sendMail = (Switch) findViewById(R.id.setup_sendmail);
 
         s1_email = (EditText) findViewById(R.id.setup_1_email_destinatario);
         s1_numSchermate = (EditText) findViewById(R.id.setup_1_numschermate);
@@ -60,10 +67,26 @@ public class SetupActivity extends ActionBarActivity {
 
         SharedPreferences settings = getSharedPreferences(
                 "settings", 0);
-        final SharedPreferences.Editor editor = settings.edit();
+        editor = settings.edit();
 
         emailMitt.setText(settings.getString("emailMitt", "mail@example.com"));
         pswMitt.setText(settings.getString("pswMitt", "password"));
+        sendMail.setChecked(settings.getBoolean("sendMail", true));
+
+        sendMail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked) {
+                    editor.putBoolean("sendMail", true);
+                    Log.d("switch", "true");
+                } else {
+                    editor.putBoolean("sendMail", false);
+                    Log.d("switch", "false");
+                }
+
+            }
+        });
 
         s1_email.setText(settings.getString("s1_email", "mail@example.com"));
         s1_numSchermate.setText(Integer.toString(settings.getInt("s1_numSchermate", 3)));
@@ -120,12 +143,11 @@ public class SetupActivity extends ActionBarActivity {
             }
         });
 
+
+
     }
 
     public void save(){
-        SharedPreferences settings = getSharedPreferences(
-                "settings", 0);
-        final SharedPreferences.Editor editor = settings.edit();
 
         if(isValid()){
 

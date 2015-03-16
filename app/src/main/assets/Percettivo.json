@@ -11,6 +11,15 @@
              ],
              "sfondo" : "bg_universo"
          },
+           {
+               "id" : "prato",
+               "nome" : "Prato",
+               "target" : "quadrifoglio",
+               "elementi" : [
+                      {"nome" : "trifoglio"}
+                      ],
+               "sfondo" : "bg_prato"
+           },
          {
              "id" : "natura",
              "nome" : "Natura",
@@ -19,15 +28,6 @@
                     {"nome" : "anguria"}
              ],
              "sfondo" : "bg_natura"
-         },
-         {
-             "id" : "prato",
-             "nome" : "Prato",
-             "target" : "quadrifoglio",
-             "elementi" : [
-                    {"nome" : "trifoglio"}
-                    ],
-             "sfondo" : "bg_prato"
          }
      ]
 }

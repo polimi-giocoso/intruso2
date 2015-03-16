@@ -21,6 +21,9 @@ public class Sessione {
         this.numIntrusi = numIntrusi;
         this.tempoMassimo = tempoMassimo;
 
+        this.attesa = 0;
+        this.speed = 0;
+
         this.schermate = new ArrayList<Schermata>();
         addSchermate(numSchermate);
     }

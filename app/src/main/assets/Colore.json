@@ -10,15 +10,6 @@
             "sfondo" : "bg_mare"
         },
         {
-            "id" : "urbano",
-            "nome" : "Urbano",
-            "target" : "auto_intruso",
-            "elementi" : [
-                {"nome" : "auto"}
-                ],
-            "sfondo" : "bg_urbano"
-        },
-        {
             "id" : "colore",
             "nome" : "Colore",
             "target" : "pallino_intruso",
@@ -26,6 +17,15 @@
                 {"nome" : "pallino"}
                 ],
             "sfondo" : "bg_colore"
+        },
+        {
+            "id" : "urbano",
+            "nome" : "Urbano",
+            "target" : "auto_intruso",
+            "elementi" : [
+                {"nome" : "auto"}
+                ],
+            "sfondo" : "bg_urbano"
         }
     ]
 }

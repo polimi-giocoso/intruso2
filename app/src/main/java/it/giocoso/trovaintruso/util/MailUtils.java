@@ -67,11 +67,14 @@ public class MailUtils {
 
         riepilogo += "## DATI SESSIONE DI GIOCO ##\n";
         riepilogo += "Criterio di gioco: "+ criteri[s.getCriterio()] + "\n";
-        riepilogo += "Tempo massimo per schermata: "+ s.getTempoMassimo() + "\n";
+        riepilogo += "Tempo massimo per schermata: "+ s.getTempoMassimo() + " secondi\n";
         riepilogo += "Numero totale di oggetti per schermata: "+ s.getNumOggettiTotale() + "\n";
         riepilogo += "Numero di intrusi: "+ s.getNumIntrusi() + "\n";
         riepilogo += "Numero di schermate: "+ s.getSchermate().size() + "\n";
-        riepilogo += "Velocità: "+ s.getSpeed() + "\n";
+        if(s.getAttesa()!=0){
+            riepilogo += "Tempo di attesa per comparsa oggetto: "+ s.getAttesa() + " secondi\n";
+            riepilogo += "Tempo di permanenza oggetto sullo schermo: "+ s.getSpeed() + " secondi\n";
+        }
         riepilogo += "\n";
 
 
@@ -94,5 +97,32 @@ public class MailUtils {
         }
 
         return riepilogo;
+    }
+
+
+    public String getPunteggioTotale(Sessione s, Context ctx){
+        String message = "";
+        int oggettiTrovati = 0;
+        int oggettiTotali = s.getSchermate().size()*s.getNumIntrusi();
+
+        for(int i = 0; i<s.getSchermate().size(); i++){
+
+            oggettiTrovati += s.getSchermate().get(i).getTempiDiRisposta().size();
+
+        }
+
+        if(oggettiTrovati < oggettiTotali){
+            if(oggettiTrovati == 0){
+                message = "Uffa! Non hai trovato nessun oggetto!";
+            }else if(oggettiTrovati == 1){
+                message = "Hai trovato 1 oggetto su "+oggettiTotali+"!";
+            }else{
+                message = "Hai trovato in totale "+ oggettiTrovati + " oggetti su "+oggettiTotali+"!";
+            }
+        }else if(oggettiTrovati == oggettiTotali){
+            message = "Hai trovato tutti gli oggetti!";
+        }
+
+        return message;
     }
 }

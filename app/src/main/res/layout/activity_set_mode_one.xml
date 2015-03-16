@@ -65,6 +65,14 @@
                 android:textColorHint="#aaa"
                 android:textColor="#eee" />
 
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Invio email al termine della sessione di gioco"
+                android:id="@+id/setup_sendmail"
+                android:textColor="#ffffff"
+                android:layout_marginTop="12dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -6,7 +6,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,7 +70,7 @@ public class ModeOneActivity extends ActionBarActivity {
     private CountDownTimer cdt;
 
     TextView timerView;
-    MediaPlayer mpOK, mpError;
+    SoundPool sp;
     int cIntrusiTrovati, idxOggetti, cSchermate, cSfondi;
     int widthObj, heightObj, widthScreen, heightScreen;
     long tempoInizio, tempoGioco;
@@ -84,6 +87,7 @@ public class ModeOneActivity extends ActionBarActivity {
     DisplayMetrics displaymetrics;
 
     int backCounter = 0;
+    int soundIds[] = new int[2];
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +109,10 @@ public class ModeOneActivity extends ActionBarActivity {
         pause = (Button) findViewById(R.id.pause);
         next = (Button) findViewById(R.id.next);
 
-        mpOK = MediaPlayer.create(getApplicationContext(), R.raw.ok);
-        mpError = MediaPlayer.create(getApplicationContext(), R.raw.error);
+        sp = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundIds[0] = sp.load(getApplicationContext(), R.raw.ok, 1);
+        soundIds[1] = sp.load(getApplicationContext(), R.raw.error, 1);
+
         builder = new AlertDialog.Builder(this);
 
         settings = getSharedPreferences("settings", 0);
@@ -160,6 +166,7 @@ public class ModeOneActivity extends ActionBarActivity {
     public void creaSchermata(){
 
         //inizializzo valori per questa schermata
+        System.gc();
 
         backCounter = 0;
         tempoInizio = 0;
@@ -199,8 +206,7 @@ public class ModeOneActivity extends ActionBarActivity {
 
         //imposto lo sfondo
 
-        stage.setBackgroundResource(getResources().getIdentifier(background,
-                "drawable", getPackageName()));
+        stage.setBackgroundResource(getResources().getIdentifier(background, "drawable", getPackageName()));
 
         gameInfo.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -337,7 +343,8 @@ public class ModeOneActivity extends ActionBarActivity {
                     s.getSchermata(cSchermate).setTempoDiCompletamento(tempoGioco);
                     cIntrusiTrovati++;
 
-                    mpOK.start();
+                    //mpOK.start();
+                    sp.play(soundIds[0], 1, 1, 1, 0, 1);
                     ViewContainer cont = new ViewContainer();
                     cont.view = bottoniOggetti.get(v.getId());
                     v.setAlpha(1f);
@@ -354,8 +361,7 @@ public class ModeOneActivity extends ActionBarActivity {
                     });
 
                 }else{
-                    //mp.setVolume(300,300);
-                    mpError.start();
+                    sp.play(soundIds[1], 1, 1, 1, 0, 1);
                 }
             }
         });
@@ -550,11 +556,24 @@ public class ModeOneActivity extends ActionBarActivity {
         pause.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
 
+        //svuoto un po' di memoria
+        stage.removeAllViews();
+        stage.setBackgroundResource(0);
+        bottoniOggetti = null;
+        bottoniOggetti = new ArrayList<RelativeLayout>();
+        oggetti = null;
+        oggetti = new ArrayList<Oggetto>();
+        cdt = null;
+        idxOggetti = 0;
+        System.gc();
+
         String message = "";
 
         if(s.getSchermata(cSchermate-1).getTempiDiRisposta().size() < s.getNumIntrusi()){
             if(s.getSchermata(cSchermate-1).getTempiDiRisposta().size() == 0){
                 message = "Uffa! Non hai trovato nessun oggetto!";
+            }else if(s.getSchermata(cSchermate-1).getTempiDiRisposta().size() == 1){
+                message = "Hai trovato 1 oggetto su "+s.getNumIntrusi()+"!";
             }else{
                 message = "Hai trovato "+s.getSchermata(cSchermate-1).getTempiDiRisposta().size()+" oggetti su "+s.getNumIntrusi()+"!";
             }
@@ -597,7 +616,10 @@ public class ModeOneActivity extends ActionBarActivity {
 
         MailUtils mu = new MailUtils();
         String riepilogo = mu.getRiepilogo(s, getApplicationContext());
-        //mu.sendMail(riepilogo, settings.getString("emailMitt", ""), settings.getString("pswMitt", ""), settings.getString("s2_email", ""));
+
+        if(settings.getBoolean("sendMail", false) == true) {
+            mu.sendMail(riepilogo, settings.getString("emailMitt", ""), settings.getString("pswMitt", ""), settings.getString("s2_email", ""));
+        }
 
         LinearLayout risultati = new LinearLayout(getApplicationContext());
         risultati.setPadding(18, 18, 18, 18);
@@ -613,7 +635,9 @@ public class ModeOneActivity extends ActionBarActivity {
         risultati.setLayoutParams(params);
 
         TextView title = new TextView(getApplicationContext());
-        title.setText(riepilogo);
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
+        title.setText(mu.getPunteggioTotale(s, getApplicationContext()));
         risultati.addView(title);
 
 

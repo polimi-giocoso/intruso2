@@ -3,7 +3,9 @@ package it.giocoso.trovaintruso.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -55,6 +57,8 @@ import it.giocoso.trovaintruso.util.MailUtils;
 import it.giocoso.trovaintruso.util.TimeUtils;
 import it.giocoso.trovaintruso.util.ViewContainer;
 import it.giocoso.trovaintruso.util.ViewContainerAccessor;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ModeOneActivity extends ActionBarActivity {
 
@@ -75,9 +79,10 @@ public class ModeOneActivity extends ActionBarActivity {
     int widthObj, heightObj, widthScreen, heightScreen;
     long tempoInizio, tempoGioco;
     String intruso, background;
-    AlertDialog.Builder builder;
+    AlertDialog.Builder builder, exitBuilder;
     Button start, pause, next;
     LinearLayout gameInfo;
+    RelativeLayout logo;
 
     JSONArray elementi;
     JSONObject elemento;
@@ -93,6 +98,11 @@ public class ModeOneActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_mode_one2);
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -114,6 +124,7 @@ public class ModeOneActivity extends ActionBarActivity {
         soundIds[1] = sp.load(getApplicationContext(), R.raw.error, 1);
 
         builder = new AlertDialog.Builder(this);
+        exitBuilder = new AlertDialog.Builder(this);
 
         settings = getSharedPreferences("settings", 0);
 
@@ -190,9 +201,9 @@ public class ModeOneActivity extends ActionBarActivity {
 
             JSONObject scena = scenari.getJSONObject(cSfondi);
 
-            if(cSfondi<scenari.length()) {
+            if(cSfondi<scenari.length()-1) {
                 cSfondi++;
-            }else{
+            }else if(cSfondi==scenari.length()-1){
                 cSfondi = 0;
             }
 
@@ -225,8 +236,17 @@ public class ModeOneActivity extends ActionBarActivity {
 
                 heightObj = displaymetrics.heightPixels/10;
                 widthObj = heightObj;
-                widthScreen = displaymetrics.widthPixels - displaymetrics.widthPixels/6;
-                heightScreen = displaymetrics.heightPixels - gameInfo.getMeasuredHeight() - heightObj;
+                //widthScreen = displaymetrics.widthPixels - displaymetrics.widthPixels/6;
+                //heightScreen = displaymetrics.heightPixels - gameInfo.getMeasuredHeight() - heightObj;
+
+                widthScreen = displaymetrics.widthPixels - widthObj;
+                heightScreen = displaymetrics.heightPixels - gameInfo.getMeasuredHeight();
+
+                RelativeLayout l_next = (RelativeLayout) findViewById(R.id.l_next);
+                ViewGroup.LayoutParams nextParams = l_next.getLayoutParams();
+                nextParams.width = widthObj;
+                nextParams.height = heightObj;
+                l_next.setLayoutParams(nextParams);
 
                 popolaStage();
             }
@@ -235,6 +255,22 @@ public class ModeOneActivity extends ActionBarActivity {
     }
 
     public void popolaStage(){
+
+        //aggiungo il logo del gioco
+
+        logo = null;
+        logo = new RelativeLayout(getApplicationContext());
+
+        stage.addView(logo);
+
+        RelativeLayout.LayoutParams logoParams = (RelativeLayout.LayoutParams) logo.getLayoutParams();
+        logoParams.width = widthObj;
+        logoParams.height = heightObj;
+        logo.setLayoutParams(logoParams);
+        logo.setBackground(getResources().getDrawable(R.drawable.icona_intruso));
+        logo.setX(widthScreen-15);
+        logo.setY(15);
+
 
         //creo gli oggetti normali
         for(int i = 0; i < (s.getNumOggettiTotale() - s.getNumIntrusi()); i++){
@@ -323,7 +359,7 @@ public class ModeOneActivity extends ActionBarActivity {
 
 
 
-        bottoniOggetti.get(i).setX(r.nextInt(10+i) * widthScreen/(10+i) + widthObj);
+        bottoniOggetti.get(i).setX(r.nextInt(10+i) * widthScreen/(10+i));
         bottoniOggetti.get(i).setY(r.nextInt(6) * heightScreen / 6 + heightObj/2);
 
 
@@ -640,19 +676,70 @@ public class ModeOneActivity extends ActionBarActivity {
         title.setText(mu.getPunteggioTotale(s, getApplicationContext()));
         risultati.addView(title);
 
-
     }
 
     public void pauseGame(){
 
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         backCounter++;
         if(backCounter == 7){
             finish();
         }
+    }*/
+
+    public void svuotaMemoria(){
+
+        //fermo il tempo
+        if(cdt!=null) {
+            cdt.cancel();
+        }
+
+        //svuoto un po' di memoria
+        stage.removeAllViews();
+        stage.setBackgroundResource(0);
+        bottoniOggetti = null;
+        bottoniOggetti = new ArrayList<RelativeLayout>();
+        oggetti = null;
+        oggetti = new ArrayList<Oggetto>();
+        cdt = null;
+        idxOggetti = 0;
     }
 
+    @Override
+    public void onBackPressed() {
+
+        exitBuilder.setMessage(
+                "Vuoi davvero uscire dal gioco?")
+                .setCancelable(false)
+                .setNegativeButton("No, continuo a giocare!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("Si, esci dal gioco!",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                                svuotaMemoria();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                System.gc();
+
+                            }
+                        });
+
+        exitBuilder.create().show();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }

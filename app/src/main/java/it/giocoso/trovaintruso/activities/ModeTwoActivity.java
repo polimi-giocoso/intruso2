@@ -3,7 +3,9 @@ package it.giocoso.trovaintruso.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -40,6 +42,8 @@ import it.giocoso.trovaintruso.beans.Sessione;
 import it.giocoso.trovaintruso.util.MailUtils;
 import it.giocoso.trovaintruso.util.TimeUtils;
 import it.giocoso.trovaintruso.util.JsonUtils;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class ModeTwoActivity extends ActionBarActivity {
@@ -60,9 +64,10 @@ public class ModeTwoActivity extends ActionBarActivity {
     int speed, attesa, c, cIntrusiTrovati, cSchermate, cSfondi;
     long tempoInizio, tempoGioco;
     String intruso, background;
-    AlertDialog.Builder builder;
+    AlertDialog.Builder builder, exitBuilder;
     Button start, pause, next;
     LinearLayout gameInfo;
+    RelativeLayout logo;
 
     JSONArray elementi;
     JSONObject elemento;
@@ -83,6 +88,11 @@ public class ModeTwoActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_mode_one2);
 
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
@@ -102,6 +112,7 @@ public class ModeTwoActivity extends ActionBarActivity {
         soundIds[1] = sp.load(getApplicationContext(), R.raw.error, 1);
 
         builder = new AlertDialog.Builder(this);
+        exitBuilder = new AlertDialog.Builder(this);
 
         gameInfo = (LinearLayout) findViewById(R.id.gameInfo);
 
@@ -191,9 +202,9 @@ public class ModeTwoActivity extends ActionBarActivity {
 
             JSONObject scena = scenari.getJSONObject(cSfondi);
 
-            if(cSfondi<scenari.length()) {
+            if(cSfondi<scenari.length()-1) {
                 cSfondi++;
-            }else{
+            }else if(cSfondi==scenari.length()-1){
                 cSfondi = 0;
             }
 
@@ -232,6 +243,15 @@ public class ModeTwoActivity extends ActionBarActivity {
                 heightObj = displaymetrics.heightPixels/10;
                 widthObj = heightObj;
                 margin = heightObj/4;
+
+                RelativeLayout l_next = (RelativeLayout) findViewById(R.id.l_next);
+                ViewGroup.LayoutParams nextParams = l_next.getLayoutParams();
+                nextParams.width = widthObj;
+                nextParams.height = heightObj;
+                l_next.setLayoutParams(nextParams);
+
+                widthScreen = displaymetrics.widthPixels;
+                heightScreen = displaymetrics.heightPixels - gameInfo.getMeasuredHeight();
 
                 startX = (widthScreen - s.getNumColonne()*widthObj - margin*(s.getNumColonne()-1))/2;
                 startY = (heightScreen - s.getNumRighe()*heightObj - margin*(s.getNumRighe()-1))/2;
@@ -316,6 +336,22 @@ public class ModeTwoActivity extends ActionBarActivity {
 
             }
         };
+
+        //aggiungo il logo del gioco
+
+        logo = null;
+        logo = new RelativeLayout(getApplicationContext());
+
+        stage.addView(logo);
+
+        RelativeLayout.LayoutParams logoParams = (RelativeLayout.LayoutParams) logo.getLayoutParams();
+        logoParams.width = widthObj;
+        logoParams.height = heightObj;
+        logo.setLayoutParams(logoParams);
+        logo.setBackground(getResources().getDrawable(R.drawable.icona_intruso));
+        logo.setX(widthScreen-widthObj-15);
+        logo.setY(15);
+
 
         this.iniziaGioco();
     }
@@ -634,12 +670,66 @@ public class ModeTwoActivity extends ActionBarActivity {
 
     }
 
+    public void svuotaMemoria(){
+
+        //fermo il tempo
+        cdt.cancel();
+
+        //ferma i timer degli intrusi e li rimuove dallo stage
+        for(int j=0; j<s.getNumIntrusi(); j++){
+            try{
+                timerOggetti.get(j).cancel();
+                stage.removeView(bottoniOggetti.get(j+idxOggetti-s.getNumIntrusi()));
+                stage.removeView(bottoniOggetti.get(posizioni.get(j)));
+            }catch(Exception e){
+                Log.d("termina", "exc"+Integer.toString(c));
+            }
+        }
+
+        stage.removeAllViews();
+        stage.setBackgroundResource(0);
+        timerOggetti = null;
+        timerOggetti = new ArrayList<CountDownTimer>();
+        bottoniOggetti = null;
+        bottoniOggetti = new ArrayList<RelativeLayout>();
+        oggetti = null;
+        oggetti = new ArrayList<Oggetto>();
+        idxOggetti = 0;
+    }
+
     @Override
     public void onBackPressed() {
-        backCounter++;
-        if(backCounter == 7){
-            finish();
-        }
+
+        exitBuilder.setMessage(
+                "Vuoi davvero uscire dal gioco?")
+                .setCancelable(false)
+                .setNegativeButton("No, continuo a giocare!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("Si, esci dal gioco!",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+
+                                dialog.cancel();
+                                svuotaMemoria();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                System.gc();
+
+                            }
+                        });
+
+        exitBuilder.create().show();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

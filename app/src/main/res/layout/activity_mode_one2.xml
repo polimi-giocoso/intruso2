@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="it.giocoso.trovaintruso.activities.ModeOneActivity"
+    tools:ignore="MissingPrefix"
     android:background="#eee"
     android:orientation="vertical">
 
@@ -26,35 +27,57 @@
             android:id="@+id/timer"
             android:textColor="#333"
             android:textSize="56dp"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:layout_marginLeft="12dp" />
+            fontPath="fonts/megalopolis.otf"
+            android:layout_gravity="center_vertical" />
 
-        <Button
+        <RelativeLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
-            android:id="@+id/start"
+            android:layout_weight="0"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="12dp"
-            android:onClick="startAnimation"
-            android:visibility="gone" />
+            android:layout_marginRight="15dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pausa"
-            android:id="@+id/pause"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="12dp"
-            android:visibility="gone" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pausa"
+                android:id="@+id/pause"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="12dp"
+                android:visibility="gone"
+                android:layout_weight="1" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vai alla prossima"
-            android:id="@+id/next"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="12dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start"
+                android:id="@+id/start"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="12dp"
+                android:onClick="startAnimation"
+                android:visibility="gone"
+                android:layout_weight="1" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/l_next"
+                android:gravity="right|end"
+                android:layout_weight="1">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/next"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/s_avanti"
+                    android:gravity="right|end" />
+            </RelativeLayout>
+        </RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>

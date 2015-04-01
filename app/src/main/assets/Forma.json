@@ -7,7 +7,7 @@
             "elementi" : [
                 {"nome" : "bottone"}
                 ],
-            "sfondo" : "bg_oggetti"
+            "sfondo" : "bg_rosso"
         },
         {
             "id" : "animali",
@@ -26,7 +26,7 @@
                 {"nome" : "triangolo_1"},
                 {"nome" : "triangolo_2"}
                 ],
-            "sfondo" : "bg_forme"
+            "sfondo" : "bg_viola"
         }
     ]
 }

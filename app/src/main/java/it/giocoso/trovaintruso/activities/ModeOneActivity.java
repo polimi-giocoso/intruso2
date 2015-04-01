@@ -7,28 +7,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.widget.AbsoluteLayout;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,22 +32,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
-import aurelienribon.tweenengine.equations.Bounce;
 import it.giocoso.trovaintruso.R;
 import it.giocoso.trovaintruso.beans.Oggetto;
-import it.giocoso.trovaintruso.beans.Schermata;
 import it.giocoso.trovaintruso.beans.Sessione;
+import it.giocoso.trovaintruso.util.ImgUtils;
 import it.giocoso.trovaintruso.util.JsonUtils;
 import it.giocoso.trovaintruso.util.MailUtils;
-import it.giocoso.trovaintruso.util.TimeUtils;
 import it.giocoso.trovaintruso.util.ViewContainer;
 import it.giocoso.trovaintruso.util.ViewContainerAccessor;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -84,6 +73,9 @@ public class ModeOneActivity extends ActionBarActivity {
     LinearLayout gameInfo;
     RelativeLayout logo;
 
+    ArrayList<Drawable> elementiDr = new ArrayList<Drawable>();
+    Drawable intrusoDr;
+
     JSONArray elementi;
     JSONObject elemento;
 
@@ -100,6 +92,7 @@ public class ModeOneActivity extends ActionBarActivity {
         setContentView(R.layout.activity_mode_one2);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/FedraSansBold.otf")
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
@@ -195,10 +188,6 @@ public class ModeOneActivity extends ActionBarActivity {
 
             JSONArray scenari = scenariCriterio.getJSONArray("scene");
 
-            /*Random r = new Random();
-
-            JSONObject scena = scenari.getJSONObject(r.nextInt(scenari.length()));*/
-
             JSONObject scena = scenari.getJSONObject(cSfondi);
 
             if(cSfondi<scenari.length()-1) {
@@ -211,13 +200,25 @@ public class ModeOneActivity extends ActionBarActivity {
             intruso = scena.getString("target");
             background = scena.getString("sfondo");
 
+            intrusoDr = new BitmapDrawable(ImgUtils.decodeSampledBitmapFromResource(
+                    getResources(), getResources().getIdentifier(intruso, "drawable", getPackageName()), 320, 320
+            ));
+
+            for(int f = 0; f<elementi.length(); f++){
+                elementiDr.add(new BitmapDrawable(ImgUtils.decodeSampledBitmapFromResource(
+                        getResources(), getResources().getIdentifier(elementi.getJSONObject(f).getString("nome"), "drawable", getPackageName()), 320, 320
+                )));
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         //imposto lo sfondo
 
-        stage.setBackgroundResource(getResources().getIdentifier(background, "drawable", getPackageName()));
+        //stage.setBackgroundResource(getResources().getIdentifier(background, "drawable", getPackageName()));
+
+
 
         gameInfo.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -236,8 +237,6 @@ public class ModeOneActivity extends ActionBarActivity {
 
                 heightObj = displaymetrics.heightPixels/10;
                 widthObj = heightObj;
-                //widthScreen = displaymetrics.widthPixels - displaymetrics.widthPixels/6;
-                //heightScreen = displaymetrics.heightPixels - gameInfo.getMeasuredHeight() - heightObj;
 
                 widthScreen = displaymetrics.widthPixels - widthObj;
                 heightScreen = displaymetrics.heightPixels - gameInfo.getMeasuredHeight();
@@ -248,7 +247,14 @@ public class ModeOneActivity extends ActionBarActivity {
                 nextParams.height = heightObj;
                 l_next.setLayoutParams(nextParams);
 
+                ImageView stageBg = (ImageView) findViewById(R.id.stage_bg);
+
+                stageBg.setImageBitmap(ImgUtils.decodeSampledBitmapFromResource(
+                        getResources(), getResources().getIdentifier(background, "drawable", getPackageName()), 640, 480
+                ));
+
                 popolaStage();
+
             }
         });
 
@@ -345,22 +351,13 @@ public class ModeOneActivity extends ActionBarActivity {
         Random r = new Random();
 
         if(obj.isIntruso()) {
-            bottoniOggetti.get(i).setBackgroundResource(getResources().getIdentifier(intruso,
-                    "drawable", getPackageName()));
+            bottoniOggetti.get(i).setBackgroundDrawable(intrusoDr);
         }else{
-            try {
-                elemento = elementi.getJSONObject(r.nextInt(elementi.length()));
-                bottoniOggetti.get(i).setBackgroundResource(getResources().getIdentifier(elemento.getString("nome"),
-                        "drawable", getPackageName()));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            bottoniOggetti.get(i).setBackgroundDrawable(elementiDr.get(r.nextInt(elementiDr.size())));
         }
 
-
-
         bottoniOggetti.get(i).setX(r.nextInt(10+i) * widthScreen/(10+i));
-        bottoniOggetti.get(i).setY(r.nextInt(6) * heightScreen / 6 + heightObj/2);
+        bottoniOggetti.get(i).setY(r.nextInt(6) * heightScreen / 7 + heightObj/2);
 
 
 
@@ -369,6 +366,10 @@ public class ModeOneActivity extends ActionBarActivity {
             public void onClick(final View v) {
                 Log.d("dd", "CLICK - ID: "+v.getId());
                 if(oggetti.get(v.getId()).isIntruso()){
+
+                    //disabilito il click in modo che venga registrato un solo tocco
+                    v.setClickable(false);
+
                     Log.d("dd", "INTRUSO");
                     tempoGioco = System.currentTimeMillis() - tempoInizio;
 
@@ -379,7 +380,6 @@ public class ModeOneActivity extends ActionBarActivity {
                     s.getSchermata(cSchermate).setTempoDiCompletamento(tempoGioco);
                     cIntrusiTrovati++;
 
-                    //mpOK.start();
                     sp.play(soundIds[0], 1, 1, 1, 0, 1);
                     ViewContainer cont = new ViewContainer();
                     cont.view = bottoniOggetti.get(v.getId());
@@ -593,52 +593,62 @@ public class ModeOneActivity extends ActionBarActivity {
         next.setVisibility(View.GONE);
 
         //svuoto un po' di memoria
-        stage.removeAllViews();
-        stage.setBackgroundResource(0);
-        bottoniOggetti = null;
-        bottoniOggetti = new ArrayList<RelativeLayout>();
-        oggetti = null;
-        oggetti = new ArrayList<Oggetto>();
-        cdt = null;
-        idxOggetti = 0;
-        System.gc();
+        svuotaMemoria();
 
         String message = "";
+        String titolo = "";
 
         if(s.getSchermata(cSchermate-1).getTempiDiRisposta().size() < s.getNumIntrusi()){
             if(s.getSchermata(cSchermate-1).getTempiDiRisposta().size() == 0){
-                message = "Uffa! Non hai trovato nessun oggetto!";
+                titolo = "UFFA!";
+                message = "Non hai trovato nessun intruso!";
             }else if(s.getSchermata(cSchermate-1).getTempiDiRisposta().size() == 1){
-                message = "Hai trovato 1 oggetto su "+s.getNumIntrusi()+"!";
+                titolo = "OBIETTIVO QUASI RAGGIUNTO!";
+                message = "Hai trovato 1 intruso su "+s.getNumIntrusi()+"!";
             }else{
-                message = "Hai trovato "+s.getSchermata(cSchermate-1).getTempiDiRisposta().size()+" oggetti su "+s.getNumIntrusi()+"!";
+                titolo = "OBIETTIVO QUASI RAGGIUNTO!";
+                message = "Hai trovato "+s.getSchermata(cSchermate-1).getTempiDiRisposta().size()+" intrusi su "+s.getNumIntrusi()+"!";
             }
         }else if(s.getSchermata(cSchermate-1).getTempiDiRisposta().size() == s.getNumIntrusi()){
-            message = "Hai trovato tutti gli oggetti!";
+            titolo = "MISSIONE COMPIUTA!";
+            message = "Hai trovato tutti gli intrusi!";
         }
 
-        builder.setMessage(
-                message)
-                .setCancelable(false)
-                .setPositiveButton("Vai avanti",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(
-                                    DialogInterface dialog, int id) {
 
-                                dialog.cancel();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.dialog_finale, null);
+        builder.setView(dialogLayout);
+        TextView tvMessage = (TextView) dialogLayout.findViewById(R.id.message);
+        TextView tvTitolo = (TextView) dialogLayout.findViewById(R.id.titolo);
+        Button avanti = (Button) dialogLayout.findViewById(R.id.avanti);
+        tvMessage.setText(message);
+        tvTitolo.setText(titolo);
 
-                                if(cSchermate == s.getSchermate().size()){
-                                    mostraPunteggioFinale();
-                                }else{
-                                    Log.d("creaschermata", "aaa");
-                                    tweenManager.resume();
-                                    creaSchermata();
-                                }
+        //ridimensiono il pulsante
+        RelativeLayout l_avanti = (RelativeLayout) dialogLayout.findViewById(R.id.l_avanti);
+        ViewGroup.LayoutParams settingsParams = l_avanti.getLayoutParams();
+        settingsParams.width = widthObj;
+        settingsParams.height = heightObj;
+        l_avanti.setLayoutParams(settingsParams);
 
-                            }
-                        });
+        final AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
 
-        builder.create().show();
+        avanti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                if(cSchermate == s.getSchermate().size()){
+                    mostraPunteggioFinale();
+                }else{
+                    Log.d("creaschermata", "aaa");
+                    tweenManager.resume();
+                    creaSchermata();
+                }
+            }
+        });
+
+        dialog.show();
 
     }
 
@@ -657,38 +667,43 @@ public class ModeOneActivity extends ActionBarActivity {
             mu.sendMail(riepilogo, settings.getString("emailMitt", ""), settings.getString("pswMitt", ""), settings.getString("s2_email", ""));
         }
 
-        LinearLayout risultati = new LinearLayout(getApplicationContext());
-        risultati.setPadding(18, 18, 18, 18);
-        risultati.setPadding(40, 40, 40, 40);
-        risultati.setBackgroundColor(Color.argb(128, 0, 0, 0));
-        stage.addView(risultati);
-        stage.setGravity(Gravity.CENTER);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.dialog_totale, null);
+        builder.setView(dialogLayout);
+        TextView tvMessage = (TextView) dialogLayout.findViewById(R.id.message);
+        Button avanti = (Button) dialogLayout.findViewById(R.id.avanti);
+        tvMessage.setText(mu.getPunteggioTotale(s, getApplicationContext()));
 
-        risultati.setOrientation(LinearLayout.VERTICAL);
-        ViewGroup.LayoutParams params = risultati.getLayoutParams();
-        params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        risultati.setLayoutParams(params);
+        //ridimensiono il pulsante
+        RelativeLayout l_avanti = (RelativeLayout) dialogLayout.findViewById(R.id.l_avanti);
+        ViewGroup.LayoutParams settingsParams = l_avanti.getLayoutParams();
+        settingsParams.width = widthObj;
+        settingsParams.height = heightObj;
+        l_avanti.setLayoutParams(settingsParams);
 
-        TextView title = new TextView(getApplicationContext());
-        title.setTextColor(Color.WHITE);
-        title.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
-        title.setText(mu.getPunteggioTotale(s, getApplicationContext()));
-        risultati.addView(title);
+        final AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+
+        avanti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                svuotaMemoria();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                finish();
+                startActivity(intent);
+                System.gc();
+            }
+        });
+
+        dialog.show();
 
     }
 
     public void pauseGame(){
 
     }
-
-    /*@Override
-    public void onBackPressed() {
-        backCounter++;
-        if(backCounter == 7){
-            finish();
-        }
-    }*/
 
     public void svuotaMemoria(){
 
@@ -698,12 +713,14 @@ public class ModeOneActivity extends ActionBarActivity {
         }
 
         //svuoto un po' di memoria
-        stage.removeAllViews();
         stage.setBackgroundResource(0);
         bottoniOggetti = null;
         bottoniOggetti = new ArrayList<RelativeLayout>();
         oggetti = null;
         oggetti = new ArrayList<Oggetto>();
+        elementiDr = null;
+        elementiDr = new ArrayList<Drawable>();
+        intrusoDr = null;
         cdt = null;
         idxOggetti = 0;
     }
@@ -711,9 +728,11 @@ public class ModeOneActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
 
-        exitBuilder.setMessage(
-                "Vuoi davvero uscire dal gioco?")
-                .setCancelable(false)
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.dialog_esci, null);
+        exitBuilder.setView(dialogLayout);
+
+        exitBuilder.setCancelable(false)
                 .setNegativeButton("No, continuo a giocare!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -729,6 +748,7 @@ public class ModeOneActivity extends ActionBarActivity {
                                 svuotaMemoria();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                finish();
                                 startActivity(intent);
                                 System.gc();
 

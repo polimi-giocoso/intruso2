@@ -16,7 +16,7 @@
             "elementi" : [
                 {"nome" : "pallino"}
                 ],
-            "sfondo" : "bg_colore"
+            "sfondo" : "bg_bianco"
         },
         {
             "id" : "urbano",

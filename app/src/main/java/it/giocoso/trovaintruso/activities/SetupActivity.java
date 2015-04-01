@@ -1,5 +1,6 @@
 package it.giocoso.trovaintruso.activities;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +19,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import it.giocoso.trovaintruso.R;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SetupActivity extends ActionBarActivity {
 
@@ -46,7 +49,6 @@ public class SetupActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         //actionBar.setDisplayHomeAsUpEnabled(true);
-        //
 
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
@@ -163,9 +165,6 @@ public class SetupActivity extends ActionBarActivity {
 
             finish();
 
-            stage.setBackgroundResource(0);
-            stage = null;
-
         }else{
             Toast.makeText(getApplicationContext(), errori, Toast.LENGTH_LONG).show();
         }
@@ -197,20 +196,20 @@ public class SetupActivity extends ActionBarActivity {
         //controlli su modalità 1
 
         if(s1_email.getText().toString().equals("")){
-            errori += "Modalità 1: la mail di invio dati è richiesta\n";
+            errori += "Modalità in movimento: la mail di invio dati è richiesta\n";
             esito = false;
         }
 
         if(Integer.parseInt(s1_numOggetti.getText().toString())>50){
-            errori += "Modalità 1: troppi oggetti (max. 50)\n";
+            errori += "Modalità in movimento: troppi oggetti (max. 50)\n";
             esito = false;
         }
 
         if(Integer.parseInt(s1_numIntrusi.getText().toString())==Integer.parseInt(s1_numOggetti.getText().toString())){
-            errori += "Modalità 1: il numero di intrusi è uguale al numero di oggetti\n";
+            errori += "Modalità in movimento: il numero di intrusi è uguale al numero di oggetti\n";
             esito = false;
         }else if(Integer.parseInt(s1_numIntrusi.getText().toString())>Integer.parseInt(s1_numOggetti.getText().toString())){
-            errori += "Modalità 1: ci sono più intrusi che oggetti\n";
+            errori += "Modalità in movimento: ci sono più intrusi che oggetti\n";
             esito = false;
         }
 
@@ -219,22 +218,22 @@ public class SetupActivity extends ActionBarActivity {
         errori += "\n";
 
         if(s2_email.getText().toString().equals("")){
-            errori += "Modalità 2: la mail di invio dati è richiesta\n";
+            errori += "Modalità fissa: la mail di invio dati è richiesta\n";
             esito = false;
         }
 
         if(Integer.parseInt(s2_numRighe.getText().toString())>6){
-            errori += "Modalità 2: troppe righe (max. 6)\n";
+            errori += "Modalità fissa: troppe righe (max. 6)\n";
             esito = false;
         }
 
         if(Integer.parseInt(s2_numColonne.getText().toString())>10){
-            errori += "Modalità 2: troppe colonne (max. 10)\n";
+            errori += "Modalità fissa: troppe colonne (max. 10)\n";
             esito = false;
         }
 
         if(Integer.parseInt(s2_numIntrusi.getText().toString())>(Integer.parseInt(s2_numRighe.getText().toString())*Integer.parseInt(s2_numColonne.getText().toString()))){
-            errori += "Modalità 2: ci sono più intrusi che oggetti\n";
+            errori += "Modalità fissa: ci sono più intrusi che oggetti\n";
             esito = false;
         }
 
@@ -265,9 +264,5 @@ public class SetupActivity extends ActionBarActivity {
     @Override
     public void onBackPressed(){
         finish();
-        //stage.setBackgroundResource(0);
-        //stage = null;
-
     }
-
 }

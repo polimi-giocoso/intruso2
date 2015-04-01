@@ -11,7 +11,15 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/stage"
-        android:layout_weight="1"></RelativeLayout>
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/stage_bg"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -29,7 +37,7 @@
             android:textSize="56dp"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            fontPath="fonts/megalopolis.otf"
+            fontPath="fonts/FedraSansBold.otf"
             android:layout_gravity="center_vertical" />
 
         <RelativeLayout

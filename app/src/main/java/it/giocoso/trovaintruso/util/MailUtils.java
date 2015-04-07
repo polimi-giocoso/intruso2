@@ -10,9 +10,6 @@ import javax.mail.MessagingException;
 import it.giocoso.trovaintruso.R;
 import it.giocoso.trovaintruso.beans.Sessione;
 
-/**
- * Created by chicco on 26/02/15.
- */
 public class MailUtils {
 
     public void sendMail(String riepilogo, String emailMitt, String pswMitt, String emailDest){
@@ -67,11 +64,14 @@ public class MailUtils {
 
         riepilogo += "## DATI SESSIONE DI GIOCO ##\n";
         riepilogo += "Criterio di gioco: "+ criteri[s.getCriterio()] + "\n";
-        riepilogo += "Tempo massimo per schermata: "+ s.getTempoMassimo() + "\n";
+        riepilogo += "Tempo massimo per schermata: "+ s.getTempoMassimo() + " secondi\n";
         riepilogo += "Numero totale di oggetti per schermata: "+ s.getNumOggettiTotale() + "\n";
         riepilogo += "Numero di intrusi: "+ s.getNumIntrusi() + "\n";
         riepilogo += "Numero di schermate: "+ s.getSchermate().size() + "\n";
-        riepilogo += "Velocità: "+ s.getSpeed() + "\n";
+        if(s.getAttesa()!=0){
+            riepilogo += "Tempo di attesa per comparsa oggetto: "+ s.getAttesa() + " secondi\n";
+            riepilogo += "Tempo di permanenza oggetto sullo schermo: "+ s.getSpeed() + " secondi\n";
+        }
         riepilogo += "\n";
 
 
@@ -94,5 +94,32 @@ public class MailUtils {
         }
 
         return riepilogo;
+    }
+
+
+    public String getPunteggioTotale(Sessione s, Context ctx){
+        String message = "";
+        int oggettiTrovati = 0;
+        int oggettiTotali = s.getSchermate().size()*s.getNumIntrusi();
+
+        for(int i = 0; i<s.getSchermate().size(); i++){
+
+            oggettiTrovati += s.getSchermate().get(i).getTempiDiRisposta().size();
+
+        }
+
+        if(oggettiTrovati < oggettiTotali){
+            if(oggettiTrovati == 0){
+                message = ctx.getString(R.string.mu_perso_message);
+            }else{
+                message = ctx.getResources()
+                        .getQuantityString(R.plurals.mu_parziale_message,
+                                oggettiTrovati, oggettiTrovati, oggettiTotali);
+            }
+        }else if(oggettiTrovati == oggettiTotali){
+            message = ctx.getString(R.string.mu_totale_message);
+        }
+
+        return message;
     }
 }

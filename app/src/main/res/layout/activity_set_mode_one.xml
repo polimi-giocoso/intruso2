@@ -1,13 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    tools:ignore="MissingPrefix"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="it.giocoso.trovaintruso.activities.SetupActivity"
-    android:background="@drawable/bg_forme"
+    android:background="#333"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:id="@+id/stagesettings"
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,9 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Impostazioni e-mail"
+                android:text="@string/s_impostazioniemail"
                 android:id="@+id/textView1"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -39,11 +43,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Attenzione: per inviare i dati è possibile utilizzare solo account di tipo GMail!\nL\'indirizzo di destinazione può anche essere di un provider diverso."
+                android:text="@string/s_mailalert"
                 android:id="@+id/textView"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -51,9 +56,10 @@
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/setup_email_mittente"
-                android:hint="E-mail mittente (account GMail)"
+                android:hint="@string/s_mailmitt"
                 android:textColorHint="#aaa"
-                android:textColor="#eee" />
+                android:textColor="#eee"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -61,18 +67,30 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/setup_email_password"
-                android:hint="Password mittente (account GMail)"
+                android:hint="@string/s_pswmitt"
                 android:textColorHint="#aaa"
-                android:textColor="#eee" />
+                android:textColor="#eee"
+                />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/s_switchinvio"
+                android:id="@+id/setup_sendmail"
+                android:textColor="#ffffff"
+                android:layout_marginTop="12dp"
+                android:checked="false"
+                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Impostazioni modalità di gioco 1"
+                android:text="@string/s_impostazioni_movimento"
                 android:id="@+id/textView2"
                 android:textColor="#fff"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="20dp"
+                />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -86,11 +104,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="E-mail di destinazione dati:"
+                android:text="@string/s_1_maildest"
                 android:id="@+id/textView5"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -98,20 +117,22 @@
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/setup_1_email_destinatario"
-                android:hint="E-mail destinatario"
+                android:hint="@string/s_1_maildestplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Criterio:"
+                android:text="@string/s_1_criterio"
                 android:id="@+id/textView4"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <Spinner
                 android:layout_width="match_parent"
@@ -121,17 +142,19 @@
                 android:background="#eee"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Numero di schermate:"
+                android:text="@string/s_1_numschermate"
                 android:id="@+id/textView8"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -140,20 +163,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_1_numschermate"
-                android:hint="Numero di schermate"
+                android:hint="@string/s_1_numschermateplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Numero totale di oggetti:"
+                android:text="@string/s_1_numtotoggetti"
                 android:id="@+id/textView9"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -162,20 +187,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_1_numoggettitotale"
-                android:hint="Numero totale di oggetti"
+                android:hint="@string/s_1_numtotoggettiplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Numero di intrusi:"
+                android:text="@string/s_1_numintrusi"
                 android:id="@+id/textView10"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -184,20 +211,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_1_numintrusi"
-                android:hint="Numero di intrusi"
+                android:hint="@string/s_1_numintrusiplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Tempo massimo in secondi:"
+                android:text="@string/s_1_tempomax"
                 android:id="@+id/textView12"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -206,19 +235,21 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_1_tempomassimo"
-                android:hint="Tempo massimo in secondi"
+                android:hint="@string/s_1_tempomaxplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Impostazioni modalità di gioco 2"
+                android:text="@string/s_impostazioni_fissa"
                 android:id="@+id/textView3"
                 android:textColor="#fff"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="20dp"
+                />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -232,11 +263,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="E-mail di destinazione dati:"
+                android:text="@string/s_2_maildest"
                 android:id="@+id/textView7"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -244,20 +276,22 @@
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/setup_2_email_destinatario"
-                android:hint="E-mail destinatario"
+                android:hint="@string/s_2_maildestplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Criterio:"
+                android:text="@string/s_2_criterio"
                 android:id="@+id/textView6"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                 />
 
             <Spinner
                 android:layout_width="match_parent"
@@ -267,17 +301,19 @@
                 android:background="#eee"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Numero di schermate:"
+                android:text="@string/s_2_numschermate"
                 android:id="@+id/textView81"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -286,20 +322,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_2_numschermate"
-                android:hint="Numero di schermate"
+                android:hint="@string/s_2_numschermateplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Numero di righe (max. 6):"
+                android:text="@string/s_2_numrighe"
                 android:id="@+id/textView91"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -308,20 +346,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_2_numrighe"
-                android:hint="Numero di righe"
+                android:hint="@string/s_2_numrigheplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Numero di colonne (max. 10):"
+                android:text="@string/s_2_numcolonne"
                 android:id="@+id/textView911"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -330,20 +370,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_2_numcolonne"
-                android:hint="Numero di righe"
+                android:hint="@string/s_2_numcolonneplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Numero di intrusi:"
+                android:text="@string/s_2_numintrusi"
                 android:id="@+id/textView101"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -352,20 +394,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_2_numintrusi"
-                android:hint="Numero di intrusi"
+                android:hint="@string/s_2_numintrusiplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Tempo massimo in secondi:"
+                android:text="@string/s_2_tempomax"
                 android:id="@+id/textView122"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -374,20 +418,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_2_tempomassimo"
-                android:hint="Tempo massimo in secondi"
+                android:hint="@string/s_2_tempomaxplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Tempo di attesa prima che compaia l\'intruso (in secondi):"
+                android:text="@string/s_2_tempoattesa"
                 android:id="@+id/textView123"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -396,20 +442,22 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_2_attesa"
-                android:hint="Tempo di attesa prima che compaia l\'intruso (in secondi)"
+                android:hint="@string/s_2_tempoattesaplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Tempo di esposizione dell\'intruso (in secondi):"
+                android:text="@string/s_2_tempocomparsa"
                 android:id="@+id/textView1243"
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -418,16 +466,18 @@
                 android:numeric="integer"
                 android:ems="10"
                 android:id="@+id/setup_2_speed"
-                android:hint="Tempo di esposizione dell\'intruso (in secondi)"
+                android:hint="@string/s_2_tempocomparsaplace"
                 android:textColorHint="#aaa"
                 android:textColor="#eee"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Salva impostazioni"
-                android:id="@+id/setup_salva" />
+                android:text="@string/s_salva"
+                android:id="@+id/setup_salva"
+                />
 
 
         </LinearLayout>

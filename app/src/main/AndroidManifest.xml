@@ -6,42 +6,44 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icona_intruso"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.AppCompat"
+        android:largeHeap="true" >
         <activity
             android:name=".activities.ModeOneActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_mode_one"
             android:screenOrientation="landscape"
-            android:taskAffinity=".activities.ModeOneActivity">
-            <intent-filter>
-
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:taskAffinity=".activities.ModeOneActivity" >
         </activity>
         <activity
             android:name=".activities.ModeTwoActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_mode_two"
             android:screenOrientation="landscape"
-            android:taskAffinity=".activities.ModeTwoActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:taskAffinity=".activities.ModeTwoActivity" >
         </activity>
         <activity
+            android:theme="@style/Theme.AppCompat.Light"
             android:name=".activities.SetupActivity"
-            android:label="@string/title_activity_set_mode_one"
             android:configChanges="orientation"
+            android:label="@string/title_activity_set_mode_one"
             android:screenOrientation="landscape"
+            android:taskAffinity=".activities.SetupActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:taskAffinity=".activities.SetupActivity">
+            android:parentActivityName=".activities.MainActivity" >
+            <!-- Parent activity meta-data to support API level 7+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" >
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />

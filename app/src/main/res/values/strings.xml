@@ -1,13 +1,8 @@
 <resources>
-    <string name="app_name">TrovaIntruso</string>
+    <string name="app_name">Trova l\'intruso 2</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_mode_one">Trova l\'intruso 1</string>
     <string name="title_activity_mode_two">Trova l\'intruso 2</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_set_mode_one">Trova l\'intruso - Impostazioni</string>
 
     <string-array name="criteri">
@@ -15,4 +10,110 @@
         <item>Colore</item>
         <item>Percettivo</item>
     </string-array>
+    <string name="title_activity_main">Trova l\'intruso 2</string>
+
+
+    <!-- MD - modalità dinamica -->
+    <string name="md_perso_titolo">UFFA!</string>
+    <string name="md_perso_message">Non hai trovato nessun intruso!</string>
+    <string name="md_parziale_titolo">OBIETTIVO QUASI RAGGIUNTO!</string>
+    <plurals name="md_parziale_message">
+        <item quantity="one">Hai trovato 1 intruso su %2$s!</item>
+        <item quantity="other">Hai trovato %1$s intrusi su %2$s!</item>
+    </plurals>
+    <string name="md_totale_titolo">MISSIONE COMPIUTA!</string>
+    <string name="md_totale_message">Hai trovato tutti gli intrusi!</string>
+    <string name="md_esco">Si, esci dal gioco!</string>
+    <string name="md_nonesco">No, continuo a giocare!</string>
+
+
+
+    <!-- MS - modalità statica -->
+    <string name="ms_perso_titolo">UFFA!</string>
+    <string name="ms_perso_message">Non hai trovato nessun intruso!</string>
+    <string name="ms_parziale_titolo">OBIETTIVO QUASI RAGGIUNTO!</string>
+    <plurals name="ms_parziale_message">
+        <item quantity="one">Hai trovato 1 intruso su %2$s!</item>
+        <item quantity="other">Hai trovato %1$s intrusi su %2$s!</item>
+    </plurals>
+    <string name="ms_totale_titolo">MISSIONE COMPIUTA!</string>
+    <string name="ms_totale_message">Hai trovato tutti gli intrusi!</string>
+    <string name="ms_esco">Si, esci dal gioco!</string>
+    <string name="ms_nonesco">No, continuo a giocare!</string>
+
+
+
+    <!-- S - setup -->
+    <string name="s_impostazionisalvate">Impostazioni salvate correttamente!</string>
+    <string name="s_erroririlevati">ERRORI RILEVATI:\n\n</string>
+    <string name="s_mailrichiesta">La mail per inviare i dati è richiesta\n</string>
+    <string name="s_pswrichiesta">La password della mail è richiesta\n</string>
+
+    <string name="s_1_mail">Modalità in movimento: la mail di invio dati è richiesta\n</string>
+    <string name="s_1_troppioggetti">Modalità in movimento: troppi oggetti (max. 50)\n</string>
+    <string name="s_1_numintrusieq">Modalità in movimento: il numero di intrusi è uguale al numero di oggetti\n</string>
+    <string name="s_1_numintrusigr">Modalità in movimento: ci sono più intrusi che oggetti\n</string>
+
+    <string name="s_2_mail">Modalità fissa: la mail di invio dati è richiesta\n</string>
+    <string name="s_2_tropperighe">Modalità fissa: troppe righe (max. 6)\n</string>
+    <string name="s_2_troppecol">Modalità fissa: troppe colonne (max. 10)\n</string>
+    <string name="s_2_numintrusigr">Modalità fissa: ci sono più intrusi che oggetti\n</string>
+
+    <string name="s_impostazioniemail">Impostazioni e-mail</string>
+    <string name="s_mailalert">Attenzione: per inviare i dati è possibile utilizzare solo account di tipo GMail!\nL\'indirizzo di destinazione può anche essere di un provider diverso.</string>
+    <string name="s_mailmitt">E-mail mittente (account GMail)</string>
+    <string name="s_pswmitt">Password mittente (account GMail)</string>
+    <string name="s_switchinvio">Invio email al termine della sessione di gioco</string>
+    <string name="s_impostazioni_movimento">Impostazioni modalità con oggetti in movimento</string>
+    <string name="s_impostazioni_fissa">Impostazioni modalità con oggetti fissi nello spazio</string>
+
+    <string name="s_1_maildest">E-mail di destinazione dati:</string>
+    <string name="s_1_maildestplace">E-mail destinatario</string>
+    <string name="s_1_criterio">Criterio:</string>
+    <string name="s_1_numschermate">Numero di schermate:</string>
+    <string name="s_1_numschermateplace">Numero di schermate</string>
+    <string name="s_1_numtotoggetti">Numero totale di oggetti:</string>
+    <string name="s_1_numtotoggettiplace">Numero totale di oggetti</string>
+    <string name="s_1_numintrusi">Numero di intrusi:</string>
+    <string name="s_1_numintrusiplace">Numero di intrusi</string>
+    <string name="s_1_tempomax">Tempo massimo in secondi:</string>
+    <string name="s_1_tempomaxplace">Tempo massimo in secondi</string>
+
+
+    <string name="s_2_maildest">E-mail di destinazione dati:</string>
+    <string name="s_2_maildestplace">E-mail destinatario</string>
+    <string name="s_2_criterio">Criterio:</string>
+    <string name="s_2_numschermate">Numero di schermate:</string>
+    <string name="s_2_numschermateplace">Numero di schermate</string>
+    <string name="s_2_numrighe">Numero di righe (max. 6):</string>
+    <string name="s_2_numrigheplace">Numero di righe</string>
+    <string name="s_2_numcolonne">Numero di colonne (max. 10):</string>
+    <string name="s_2_numcolonneplace">Numero di colonne</string>
+    <string name="s_2_numintrusi">Numero di intrusi:</string>
+    <string name="s_2_numintrusiplace">Numero di intrusi</string>
+    <string name="s_2_tempomax">Tempo massimo in secondi:</string>
+    <string name="s_2_tempomaxplace">Tempo massimo in secondi</string>
+    <string name="s_2_tempoattesa">Tempo di attesa prima che compaia l\'intruso (in secondi):</string>
+    <string name="s_2_tempoattesaplace">Tempo di attesa prima che compaia l\'intruso (in secondi)</string>
+    <string name="s_2_tempocomparsa">Tempo di esposizione dell\'intruso (in secondi):</string>
+    <string name="s_2_tempocomparsaplace">Tempo di esposizione dell\'intruso (in secondi)</string>
+
+    <string name="s_salva">Salva impostazioni</string>
+
+    <!-- MU - mailUtils -->
+    <string name="mu_perso_message">Uffa! Non hai trovato nessun intruso!</string>
+    <plurals name="mu_parziale_message">
+        <item quantity="one">Hai trovato 1 intruso su %2$s!</item>
+        <item quantity="other">Hai trovato %1$s intrusi su %2$s!</item>
+    </plurals>
+    <string name="mu_totale_message">Hai trovato tutti gli intrusi!</string>
+
+
+    <!-- D - dialog varie -->
+    <string name="d_esci_titolo">ESCI DAL GIOCO</string>
+    <string name="d_esci_message">Sei sicuro di voler uscire dal gioco?</string>
+    <string name="d_partita_terminata">PARTITA TERMINATA</string>
+    <string name="d_welcome_titolo">BENVENUTO!</string>
+    <string name="d_welcome_message">Prima di iniziare a giocare è necessario definire alcune impostazioni\n(una volta sola!)</string>
+    <string name="d_welcome_button">Vai alle impostazioni</string>
 </resources>

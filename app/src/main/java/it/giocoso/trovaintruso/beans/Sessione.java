@@ -1,12 +1,7 @@
 package it.giocoso.trovaintruso.beans;
 
-import android.support.annotation.IntegerRes;
-
 import java.util.ArrayList;
 
-/**
- * Created by chicco on 11/02/15.
- */
 public class Sessione {
 
     private ArrayList<Schermata> schermate;
@@ -14,6 +9,7 @@ public class Sessione {
     private int punteggio, numOggettiTotale, numIntrusi, tempoMassimo, speed, numRighe, numColonne, attesa;
 
     //costruttore per modalità di gioco 1
+
     public Sessione(int criterio, int numSchermate, int numOggettiTotale, int numIntrusi, int tempoMassimo) {
         this.criterio = criterio;
         this.punteggio = 0;
@@ -21,11 +17,15 @@ public class Sessione {
         this.numIntrusi = numIntrusi;
         this.tempoMassimo = tempoMassimo;
 
+        this.attesa = 0;
+        this.speed = 0;
+
         this.schermate = new ArrayList<Schermata>();
         addSchermate(numSchermate);
     }
 
     //costruttore per modalità di gioco 2
+
     public Sessione(int criterio, int numSchermate, int numRighe, int numColonne, int numIntrusi, int tempoMassimo, int speed, int attesa) {
         this.criterio = criterio;
         this.punteggio = 0;

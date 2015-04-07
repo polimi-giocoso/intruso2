@@ -4,21 +4,29 @@
              "id" : "universo",
              "nome" : "Universo",
              "target" : "stella",
-             "elementi" : "pianeta",
+             "elementi" : [
+                    {"nome" : "pianeta_1"},
+                    {"nome" : "pianeta_2"},
+                    {"nome" : "pianeta_3"}
+             ],
              "sfondo" : "bg_universo"
          },
+           {
+               "id" : "prato",
+               "nome" : "Prato",
+               "target" : "quadrifoglio",
+               "elementi" : [
+                      {"nome" : "trifoglio"}
+                      ],
+               "sfondo" : "bg_prato"
+           },
          {
              "id" : "natura",
              "nome" : "Natura",
              "target" : "tartaruga",
-             "elementi" : "anguria",
-             "sfondo" : "bg_natura"
-         },
-         {
-             "id" : "prato",
-             "nome" : "Prato",
-             "target" : "quadrifoglio",
-             "elementi" : "trifoglio",
+             "elementi" : [
+                    {"nome" : "anguria"}
+             ],
              "sfondo" : "bg_prato"
          }
      ]

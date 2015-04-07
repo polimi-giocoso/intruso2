@@ -2,9 +2,6 @@ package it.giocoso.trovaintruso.beans;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by chicco on 11/02/15.
- */
 public class Oggetto {
 
     private int id;

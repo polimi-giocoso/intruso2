@@ -5,13 +5,10 @@ import android.content.Context;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 import it.giocoso.trovaintruso.R;
 
-/**
- * Created by chicco on 21/02/15.
- */
+
 public class JsonUtils {
 
     public static String loadJSONFromAsset(int criterio, Context ctx) {

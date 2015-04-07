@@ -2,9 +2,6 @@ package it.giocoso.trovaintruso.beans;
 
 import java.util.ArrayList;
 
-/**
- * Created by chicco on 11/02/15.
- */
 public class Schermata {
 
     private String tema;

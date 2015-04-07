@@ -1,6 +1,5 @@
 package it.giocoso.trovaintruso.activities;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -19,8 +18,6 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import it.giocoso.trovaintruso.R;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SetupActivity extends ActionBarActivity {
 
@@ -48,14 +45,14 @@ public class SetupActivity extends ActionBarActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        //actionBar.setDisplayHomeAsUpEnabled(true);
+
+        // Nascondo la status bar
 
         View decorView = getWindow().getDecorView();
-        // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
-        //recupero tutti i campi
+        // recupero tutti i campi
 
         emailMitt = (EditText) findViewById(R.id.setup_email_mittente);
         pswMitt = (EditText) findViewById(R.id.setup_email_password);
@@ -88,13 +85,13 @@ public class SetupActivity extends ActionBarActivity {
 
         emailMitt.setText(settings.getString("emailMitt", "mail@example.com"));
         pswMitt.setText(settings.getString("pswMitt", "password"));
-        sendMail.setChecked(settings.getBoolean("sendMail", true));
+        sendMail.setChecked(settings.getBoolean("sendMail", false));
 
         sendMail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(isChecked) {
+                if (isChecked) {
                     editor.putBoolean("sendMail", true);
                     Log.d("switch", "true");
                 } else {
@@ -133,11 +130,16 @@ public class SetupActivity extends ActionBarActivity {
 
     }
 
-    public void save(){
+    /**
+     * Salva le impostazioni
+     */
 
-        if(isValid()){
+    public void save() {
+
+        if (isValid()) {
 
             //salvo tutti i campi
+
             editor.putString("emailMitt", emailMitt.getText().toString());
             editor.putString("pswMitt", pswMitt.getText().toString());
 
@@ -158,31 +160,37 @@ public class SetupActivity extends ActionBarActivity {
             editor.putInt("s2_speed", Integer.parseInt(s2_speed.getText().toString()));
             editor.putInt("s2_criterio", s2_criterio.getSelectedItemPosition());
 
+            editor.putBoolean("no_setup", false);
+
             editor.commit();
 
 
-            Toast.makeText(getApplicationContext(), "Impostazioni salvate correttamente!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.s_impostazionisalvate), Toast.LENGTH_SHORT).show();
 
             finish();
 
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), errori, Toast.LENGTH_LONG).show();
         }
     }
 
-    public boolean isValid(){
+    /**
+     * Verifica dei valori nei campi
+     */
+
+    public boolean isValid() {
 
         boolean esito = true;
-        errori = "ERRORI RILEVATI:\n\n";
+        errori = getResources().getString(R.string.s_erroririlevati);
 
         //controlli generici email
-        if(emailMitt.getText().toString().equals("")){
-            errori += "La mail per inviare i dati è richiesta\n";
+        if (emailMitt.getText().toString().equals("")) {
+            errori += getResources().getString(R.string.s_mailrichiesta);
             esito = false;
         }
 
-        if(pswMitt.getText().toString().equals("")){
-            errori += "La password della mail è richiesta\n";
+        if (pswMitt.getText().toString().equals("")) {
+            errori += getResources().getString(R.string.s_pswrichiesta);
             esito = false;
         }
 
@@ -193,47 +201,47 @@ public class SetupActivity extends ActionBarActivity {
 
         errori += "\n";
 
-        //controlli su modalità 1
+        //controlli su modalità in movimento
 
-        if(s1_email.getText().toString().equals("")){
-            errori += "Modalità in movimento: la mail di invio dati è richiesta\n";
+        if (s1_email.getText().toString().equals("")) {
+            errori += getResources().getString(R.string.s_1_mail);
             esito = false;
         }
 
-        if(Integer.parseInt(s1_numOggetti.getText().toString())>50){
-            errori += "Modalità in movimento: troppi oggetti (max. 50)\n";
+        if (Integer.parseInt(s1_numOggetti.getText().toString()) > 50) {
+            errori += getResources().getString(R.string.s_1_troppioggetti);
             esito = false;
         }
 
-        if(Integer.parseInt(s1_numIntrusi.getText().toString())==Integer.parseInt(s1_numOggetti.getText().toString())){
-            errori += "Modalità in movimento: il numero di intrusi è uguale al numero di oggetti\n";
+        if (Integer.parseInt(s1_numIntrusi.getText().toString()) == Integer.parseInt(s1_numOggetti.getText().toString())) {
+            errori += getResources().getString(R.string.s_1_numintrusieq);
             esito = false;
-        }else if(Integer.parseInt(s1_numIntrusi.getText().toString())>Integer.parseInt(s1_numOggetti.getText().toString())){
-            errori += "Modalità in movimento: ci sono più intrusi che oggetti\n";
+        } else if (Integer.parseInt(s1_numIntrusi.getText().toString()) > Integer.parseInt(s1_numOggetti.getText().toString())) {
+            errori += getResources().getString(R.string.s_1_numintrusigr);
             esito = false;
         }
 
-        //controlli su modalità 2
+        //controlli su modalità con oggetti fissi
 
         errori += "\n";
 
-        if(s2_email.getText().toString().equals("")){
-            errori += "Modalità fissa: la mail di invio dati è richiesta\n";
+        if (s2_email.getText().toString().equals("")) {
+            errori += getResources().getString(R.string.s_2_mail);
             esito = false;
         }
 
-        if(Integer.parseInt(s2_numRighe.getText().toString())>6){
-            errori += "Modalità fissa: troppe righe (max. 6)\n";
+        if (Integer.parseInt(s2_numRighe.getText().toString()) > 6) {
+            errori += getResources().getString(R.string.s_2_tropperighe);
             esito = false;
         }
 
-        if(Integer.parseInt(s2_numColonne.getText().toString())>10){
-            errori += "Modalità fissa: troppe colonne (max. 10)\n";
+        if (Integer.parseInt(s2_numColonne.getText().toString()) > 10) {
+            errori += getResources().getString(R.string.s_2_troppecol);
             esito = false;
         }
 
-        if(Integer.parseInt(s2_numIntrusi.getText().toString())>(Integer.parseInt(s2_numRighe.getText().toString())*Integer.parseInt(s2_numColonne.getText().toString()))){
-            errori += "Modalità fissa: ci sono più intrusi che oggetti\n";
+        if (Integer.parseInt(s2_numIntrusi.getText().toString()) > (Integer.parseInt(s2_numRighe.getText().toString()) * Integer.parseInt(s2_numColonne.getText().toString()))) {
+            errori += getResources().getString(R.string.s_2_numintrusigr);
             esito = false;
         }
 
@@ -262,7 +270,7 @@ public class SetupActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
     }
 }

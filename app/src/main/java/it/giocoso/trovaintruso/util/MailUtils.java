@@ -10,9 +10,6 @@ import javax.mail.MessagingException;
 import it.giocoso.trovaintruso.R;
 import it.giocoso.trovaintruso.beans.Sessione;
 
-/**
- * Created by chicco on 26/02/15.
- */
 public class MailUtils {
 
     public void sendMail(String riepilogo, String emailMitt, String pswMitt, String emailDest){
@@ -113,14 +110,14 @@ public class MailUtils {
 
         if(oggettiTrovati < oggettiTotali){
             if(oggettiTrovati == 0){
-                message = "Uffa! Non hai trovato nessun oggetto!";
-            }else if(oggettiTrovati == 1){
-                message = "Hai trovato 1 oggetto su "+oggettiTotali+"!";
+                message = ctx.getString(R.string.mu_perso_message);
             }else{
-                message = "Hai trovato in totale "+ oggettiTrovati + " oggetti su "+oggettiTotali+"!";
+                message = ctx.getResources()
+                        .getQuantityString(R.plurals.mu_parziale_message,
+                                oggettiTrovati, oggettiTrovati, oggettiTotali);
             }
         }else if(oggettiTrovati == oggettiTotali){
-            message = "Hai trovato tutti gli oggetti!";
+            message = ctx.getString(R.string.mu_totale_message);
         }
 
         return message;

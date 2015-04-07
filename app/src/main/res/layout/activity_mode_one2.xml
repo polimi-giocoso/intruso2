@@ -48,27 +48,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pausa"
-                android:id="@+id/pause"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="12dp"
-                android:visibility="gone"
-                android:layout_weight="1" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Start"
-                android:id="@+id/start"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="12dp"
-                android:onClick="startAnimation"
-                android:visibility="gone"
-                android:layout_weight="1" />
-
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"

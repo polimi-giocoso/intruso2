@@ -488,6 +488,10 @@ public class ModeTwoActivity extends ActionBarActivity {
                 public void onClick(final View v) {
                     Log.d("dd", "CLICK - ID: " + v.getId());
                     sp.play(soundIds[1], 1, 1, 1, 0, 1);
+
+                    //registro l'errore
+
+                    s.getSchermata(cSchermate).addNewErrore();
                 }
             });
         }

@@ -404,6 +404,10 @@ public class ModeOneActivity extends ActionBarActivity {
 
                 } else {
                     sp.play(soundIds[1], 1, 1, 1, 0, 1);
+
+                    //registro l'errore
+
+                    s.getSchermata(cSchermate).addNewErrore();
                 }
             }
         });

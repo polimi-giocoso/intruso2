@@ -34,7 +34,7 @@ public class MailUtils {
 
 
             try {
-                sender.sendMail("Riepilogo sessione di gioco",
+                sender.sendMail("Trova l'intruso 2 - Riepilogo sessione di gioco",
                         riepilogo,
                         emailMitt,
                         emailDest);
@@ -62,7 +62,12 @@ public class MailUtils {
 
         String[] criteri = ctx.getResources().getStringArray(R.array.criteri);
 
-        riepilogo += "## DATI SESSIONE DI GIOCO ##\n";
+        riepilogo += "## TROVA L'INTRUSO 2 - DATI SESSIONE DI GIOCO ##\n";
+        if(s.isDinamica()){
+            riepilogo += "Modalità di gioco: dinamica (con oggetti in movimento)\n";
+        }else{
+            riepilogo += "Modalità di gioco: statica (con griglia di oggetti fissi)\n";
+        }
         riepilogo += "Criterio di gioco: "+ criteri[s.getCriterio()] + "\n";
         riepilogo += "Tempo massimo per schermata: "+ s.getTempoMassimo() + " secondi\n";
         riepilogo += "Numero totale di oggetti per schermata: "+ s.getNumOggettiTotale() + "\n";
@@ -77,8 +82,9 @@ public class MailUtils {
 
         for(int i = 0; i<s.getSchermate().size(); i++){
 
-            riepilogo += "## SCHERMATA "+Integer.toString(i+1)+" ##\n";
+            riepilogo += "## SCHERMATA "+Integer.toString(i + 1)+" ##\n";
             riepilogo += "Numero di oggetti trovati: "+ s.getSchermate().get(i).getTempiDiRisposta().size() + "\n";
+            riepilogo += "Numero di errori commessi: " + s.getSchermate().get(i).getErrori() + "\n";
 
             for(int j = 0; j<s.getSchermate().get(i).getTempiDiRisposta().size(); j++){
 

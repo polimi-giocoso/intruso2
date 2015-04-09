@@ -7,6 +7,7 @@ public class Sessione {
     private ArrayList<Schermata> schermate;
     private int criterio;
     private int punteggio, numOggettiTotale, numIntrusi, tempoMassimo, speed, numRighe, numColonne, attesa;
+    private boolean dinamica;
 
     //costruttore per modalità di gioco 1
 
@@ -16,6 +17,7 @@ public class Sessione {
         this.numOggettiTotale = numOggettiTotale;
         this.numIntrusi = numIntrusi;
         this.tempoMassimo = tempoMassimo;
+        this.dinamica = true;
 
         this.attesa = 0;
         this.speed = 0;
@@ -36,6 +38,8 @@ public class Sessione {
         this.speed = speed;
         this.attesa = attesa;
         this.numOggettiTotale = numColonne*numRighe;
+
+        this.dinamica = false;
 
         this.schermate = new ArrayList<Schermata>();
         addSchermate(numSchermate);
@@ -132,5 +136,9 @@ public class Sessione {
 
     public void setAttesa(int attesa) {
         this.attesa = attesa;
+    }
+
+    public boolean isDinamica() {
+        return dinamica;
     }
 }

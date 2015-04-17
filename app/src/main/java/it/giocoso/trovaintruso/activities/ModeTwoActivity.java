@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -658,7 +659,11 @@ public class ModeTwoActivity extends ActionBarActivity {
             public void onClick(View v) {
                 dialog.cancel();
                 if (cSchermate == s.getSchermate().size()) {
-                    mostraPunteggioFinale();
+                    try {
+                        mostraPunteggioFinale();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Log.d("creaschermata", "aaa");
                     creaSchermata();
@@ -673,18 +678,15 @@ public class ModeTwoActivity extends ActionBarActivity {
      * Mostra il punteggio della sessione di gioco
      */
 
-    public void mostraPunteggioFinale() {
+    public void mostraPunteggioFinale() throws SQLException {
 
         timerView.setVisibility(View.GONE);
 
         Log.d("mostrapunteggio", "AAA");
 
-        MailUtils mu = new MailUtils();
-        String riepilogo = mu.getRiepilogo(s, getApplicationContext());
-
-        if (settings.getBoolean("sendMail", false) == true) {
-            mu.sendMail(riepilogo, settings.getString("emailMitt", ""), settings.getString("pswMitt", ""), settings.getString("s2_email", ""));
-        }
+        final MailUtils mu = new MailUtils();
+        final String riepilogo = mu.getRiepilogo(s, getApplicationContext());
+        final Context ctx = this;
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.dialog_totale, null);
@@ -707,13 +709,22 @@ public class ModeTwoActivity extends ActionBarActivity {
         avanti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //chiudo la dialog
+
                 dialog.cancel();
                 svuotaMemoria();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                finish();
-                startActivity(intent);
                 System.gc();
+
+                //se richiesto, provo a inviare la mail
+
+                if (settings.getBoolean("sendMail", false) == true) {
+                    try {
+                        mu.sendMail(riepilogo, settings.getString("emailMitt", ""), settings.getString("pswMitt", ""), settings.getString("s2_email", ""), ctx);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 

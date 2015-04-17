@@ -1,5 +1,7 @@
 package it.giocoso.trovaintruso.util;
 
+import android.util.Log;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.Message;
@@ -60,7 +62,8 @@ public class GMailSender extends javax.mail.Authenticator {
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
             Transport.send(message);
         }catch(Exception e){
-
+            Log.d("sendmail", "exception");
+            throw e;
         }
     }
 

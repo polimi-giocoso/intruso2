@@ -107,6 +107,9 @@
         <item quantity="other">Hai trovato %1$s intrusi su %2$s!</item>
     </plurals>
     <string name="mu_totale_message">Hai trovato tutti gli intrusi!</string>
+    <string name="mu_attesa_message">Sto inviando la mail con i risultati, attendi!</string>
+    <string name="mu_oggetto_mail">Trova l\'intruso 2 - Riepilogo sessione di gioco</string>
+    <string name="mu_ok">Ok</string>
 
 
     <!-- D - dialog varie -->
@@ -116,4 +119,9 @@
     <string name="d_welcome_titolo">BENVENUTO!</string>
     <string name="d_welcome_message">Prima di iniziare a giocare è necessario definire alcune impostazioni\n(una volta sola!)</string>
     <string name="d_welcome_button">Vai alle impostazioni</string>
+    <string name="d_errore_titolo">ERRORE!</string>
+    <string name="d_errore_message_1">Il nome utente e la password per inviare la mail sono errati!\n\nCorreggere i dati dalle impostazioni del gioco, la mail verrà inviata al termine della prossima partita.</string>
+    <string name="d_errore_message_2">Invio mail non riuscito, controllare la connessione a Internet.\n\nLa mail verrà inviata al termine della prima partita con connessione attiva.</string>
+    <string name="d_errore_message_3">Invio mail non riuscito!\n\nLa mail verrà inviata al termine della prima partita con connessione attiva.</string>
+
 </resources>

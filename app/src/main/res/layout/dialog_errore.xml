@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:gravity="center"
+    tools:ignore="MissingPrefix"
+    android:padding="18dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/d_errore_titolo"
+        android:id="@+id/titolo"
+        fontPath="fonts/FedraSansBold.otf"
+        android:textColor="#333"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:textSize="48sp"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        android:background="#cc6600"
+        android:layout_marginBottom="18dp"></LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/d_esci_message"
+        android:id="@+id/message"
+        fontPath="fonts/FedraSansNormal.otf"
+        android:textColor="#333"
+        android:layout_marginBottom="18dp"
+        android:textSize="28sp"
+        android:gravity="center" />
+
+</LinearLayout>

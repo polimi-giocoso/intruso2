@@ -1,10 +1,12 @@
 <component name="libraryTable">
   <library name="calligraphy-2.0.2">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/uk.co.chrisjenx/calligraphy/2.0.2/res" />
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/uk.co.chrisjenx/calligraphy/2.0.2/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/uk.co.chrisjenx/calligraphy/2.0.2/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/uk.co.chrisjenx/calligraphy/2.0.2/97b85281e869e4fae49d7f908271d228dcbba084/calligraphy-2.0.2-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

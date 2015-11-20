@@ -724,6 +724,11 @@ public class ModeTwoActivity extends ActionBarActivity {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                }else{
+                    Intent intent = new Intent(ctx.getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    ctx.startActivity(intent);
                 }
             }
         });

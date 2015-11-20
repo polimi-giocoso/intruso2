@@ -11,10 +11,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -457,7 +457,6 @@ public class ModeOneActivity extends ActionBarActivity {
         ///start animations
 
         int i = idxOggetti - s.getNumOggettiTotale();
-        int c = 0;
         for (; i < idxOggetti; i++) {
             ViewContainer cont = new ViewContainer();
             cont.view = bottoniOggetti.get(i);
@@ -466,43 +465,16 @@ public class ModeOneActivity extends ActionBarActivity {
 
             Random r = new Random();
 
-            if (c == 0) {
-                Timeline.createSequence()
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(stage.getWidth() - x - widthObj, 0))
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(-x, 0))
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(0, 0))
-                        .repeat(30, 0)
-                        .start(tweenManager);
-                c++;
-            } else if (c == 1) {
-                Timeline.createSequence()
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(-x, 0))
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(stage.getWidth() - x - widthObj, 0))
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(0, 0))
-                        .repeat(30, 0)
-                        .start(tweenManager);
-                c++;
-            } else if (c == 2) {
-                Timeline.createSequence()
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(0, stage.getHeight() - y - heightObj))
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(0, -y))
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(0, 0))
-                        .repeat(30, 0)
-                        .start(tweenManager);
-                c++;
-
-            } else if (c == 3) {
-                Timeline.createSequence()
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(0, -y))
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(0, stage.getHeight() - y - heightObj))
-                        .push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 6 + r.nextInt(12)).target(0, 0))
-                        .repeat(30, 0)
-                        .start(tweenManager);
-
-                c = 0;
+            Timeline timeline = Timeline.createSequence();
+//            timeline.push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 1 + r.nextInt(6)).target(r.nextInt((int) (stage.getWidth() - x - widthObj)), r.nextInt((int) (stage.getHeight() - y - heightObj))));
+            for (int j = 0; j < 30; j++) {
+                int rndX = (int) (r.nextInt(stage.getWidth() - widthObj) - x);
+                int rndY = (int) (r.nextInt(stage.getHeight() - heightObj) - y);
+                timeline.push(Tween.to(cont, ViewContainerAccessor.POSITION_XY, 2 + r.nextInt(5)).target(rndX, rndY));
+                Log.d("ModeOneActivity", i + ": (" + rndX + "," + rndY + ")");
             }
+            timeline.start(tweenManager);
         }
-
     }
 
     /**
@@ -721,6 +693,11 @@ public class ModeOneActivity extends ActionBarActivity {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    Intent intent = new Intent(ctx.getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    ctx.startActivity(intent);
                 }
             }
         });
